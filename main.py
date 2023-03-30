@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request, Header, Body
+from fastapi import FastAPI, HTTPException, Request, Header
 from typing import Annotated
 from fastapi.responses import FileResponse
 from os.path import join as pjoin
@@ -23,6 +23,9 @@ async def upload(
     secret_key: Annotated[str | None, Header()] = None,
     userid: Annotated[str | None, Header()] = None):
     try:
+        # my local fastapi can get header but not cloud..?
+        if secret_key is None: secret_key = request.headers.get('secret-key')
+        if userid is None: userid = request.headers.get('userid')
         # keep your cloud safe by setting a secret key. noxplayer uses noxplayer.
         if secret_key != "noxplayer": raise Exception()
         username = unquote(userid)
@@ -38,4 +41,4 @@ async def upload(
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "noxbackup is available"}
