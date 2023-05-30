@@ -23,7 +23,7 @@ async def upload(
         username = unquote(userid)
         # keep your cloud safe by setting that only your userid 
         # will be accepted!
-        if not username in ['lovegaoshi']: raise Exception('wrong user')
+        if not username in ['lovegaoshi', 'azusaplayermobile']: raise Exception('wrong user')
         vercelsql.save(username, bytes(await request.body()))
         return {"message": "Hello World"}
     except:
