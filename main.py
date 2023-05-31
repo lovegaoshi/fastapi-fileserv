@@ -15,8 +15,8 @@ async def download(userid: str):
 @app.post("/upload")
 async def upload(
     request: Request,
-    secret_key,
-    userid):
+    secret_key = None,
+    userid = None):
     try:
         if secret_key is None: secret_key = request.headers.get('secret-key')
         if userid is None: userid = request.headers.get('userid')
