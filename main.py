@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Response, HTTPException, Request
-from os.path import join as pjoin
+import os
 from urllib.parse import unquote
 import vercelsql
 
@@ -23,7 +23,7 @@ async def upload(
         username = unquote(userid)
         # keep your cloud safe by setting that only your userid 
         # will be accepted!
-        if not username in ['lovegaoshi', 'azusaplayermobile']: raise Exception('wrong user')
+        if not username in os.environ['USERID'].split(','): raise Exception('wrong user')
         vercelsql.save(username, bytes(await request.body()))
         return {"message": "Hello World"}
     except:
