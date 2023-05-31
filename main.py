@@ -4,6 +4,7 @@ from urllib.parse import unquote
 import vercelsql
 
 app = FastAPI()
+USER_ID = os.environ['USERID'].split(',')
 
 @app.get("/download/{userid}")
 async def download(userid: str):
@@ -25,9 +26,9 @@ async def upload(
         username = unquote(userid)
         # keep your cloud safe by setting that only your userid 
         # will be accepted!
-        if not username in os.environ['USERID'].split(','): raise Exception('wrong user')
+        if not username in USER_ID: raise Exception('wrong user')
         vercelsql.save(username, bytes(await request.body()))
-        return {"message": "Hello World"}
+        return {"message": "your information is saved."}
     except:
         raise HTTPException(status_code=406, detail="n/a")
 
