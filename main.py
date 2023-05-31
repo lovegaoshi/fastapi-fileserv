@@ -18,6 +18,8 @@ async def upload(
     secret_key,
     userid):
     try:
+        if secret_key is None: secret_key = request.headers.get('secret-key')
+        if userid is None: userid = request.headers.get('userid')
         # keep your cloud safe by setting a secret key. noxplayer uses noxplayer.
         if secret_key != "noxplayer": raise Exception('wrong key')
         username = unquote(userid)
