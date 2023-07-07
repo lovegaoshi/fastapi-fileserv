@@ -29,6 +29,7 @@ async def upload(
         # will be accepted!
         if not username in USER_ID: raise Exception('wrong user')
         vercelsql.save(username, bytes(await request.body()))
+        logging.info(f'user {username}\'s data is saved to the db.')
         return {"message": "your information is saved."}
     except Exception as e:
         logging.error(e)
