@@ -2,6 +2,7 @@ from fastapi import FastAPI, Response, HTTPException, Request
 import os
 from urllib.parse import unquote
 import vercelsql
+import logging
 
 app = FastAPI()
 USER_ID = os.environ['USERID'].split(',')
@@ -29,7 +30,8 @@ async def upload(
         if not username in USER_ID: raise Exception('wrong user')
         vercelsql.save(username, bytes(await request.body()))
         return {"message": "your information is saved."}
-    except:
+    except Exception as e:
+        logging.error(e)
         raise HTTPException(status_code=406, detail="n/a")
 
 @app.get("/")
